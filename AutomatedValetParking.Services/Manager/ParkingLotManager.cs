@@ -76,5 +76,31 @@ namespace AutomatedValetParking.Services.Manager
         {
             return _parkingLot?.ParkingSpaces.Count(x => !x.IsOccupied) ?? 0;
         }
+
+        /// <summary>
+        /// Unparks a vehicle in the parking lot
+        /// </summary>
+        /// <param name="ticketNumber">Ticket number of the Vehicle</param>
+        public void UnParkVehicle(string ticketNumber)
+        {
+            var parkingLot = GetParkingSpaceDetails(ticketNumber);
+
+            if (parkingLot == null)
+            {
+                throw new InvalidOperationException("No such space available with the specified ticket.");
+            }
+
+            parkingLot.IsOccupied = false;
+        }
+
+        private IParkingSpace GetParkingSpaceDetails(string ticketNumber)
+        {
+            if (string.IsNullOrEmpty(ticketNumber))
+            {
+                throw new ArgumentException("Ticket number cannot be blank");
+            }
+
+            return _parkingLot.ParkingSpaces.FirstOrDefault(x => x.ToString().Equals(ticketNumber));
+        }
     }
 }

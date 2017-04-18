@@ -44,7 +44,7 @@ namespace AutomatedValetParking.App
             var exit = false;
             while (!exit)
             {
-                Console.WriteLine("Please enter S for Standard parking or R for reserved parking and press Q to exit");
+                Console.WriteLine("Please enter S for Standard parking or R for reserved parking, U for un parking a vehicle and press Q to exit");
                 var key = Console.ReadLine();
 
                 switch (key?.ToUpper())
@@ -54,6 +54,9 @@ namespace AutomatedValetParking.App
                         break;
                     case "R":
                         ParkVehicle(manager, ParkingType.Reserved);
+                        break;
+                    case "U":
+                        UnparkVehicle(manager);
                         break;
                     case "Q":
                         exit = true;
@@ -66,6 +69,29 @@ namespace AutomatedValetParking.App
 
 
             Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Unparks a vehicle
+        /// </summary>
+        /// <param name="manager">Parking lot manager</param>
+        private static void UnparkVehicle(IParkingLotManager manager)
+        {
+            Console.WriteLine("Please enter ticket number of vehicle to be unparked");
+            var ticketNumber = Console.ReadLine();
+            try
+            {
+                manager.UnParkVehicle(ticketNumber);
+                Console.WriteLine(string.Format("{0} is un parked successfully and is ready for exit!", ticketNumber));
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>

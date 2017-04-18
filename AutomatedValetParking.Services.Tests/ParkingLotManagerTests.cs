@@ -77,5 +77,43 @@ namespace AutomatedValetParking.Services.Tests
 
             var ticketId = manager.ParkVehicle(Entities.ParkingType.Standard);
         }
+
+        [TestMethod]
+        [Description("Verifies that a valid parking space is unparked")]
+        public void VerifyUnparkingTest()
+        {
+            var manager = Container.Resolve<IParkingLotManager>();
+            manager.SetupSystem(2, 2, null);
+
+            var ticketId = manager.ParkVehicle(Entities.ParkingType.Standard);
+
+            manager.UnParkVehicle(ticketId);
+        }
+
+        [TestMethod]
+        [Description("Verifies that a blank parking space is not unparked")]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerifyBlankUnparkingTest()
+        {
+            var manager = Container.Resolve<IParkingLotManager>();
+            manager.SetupSystem(2, 2, null);
+
+            var ticketId = manager.ParkVehicle(Entities.ParkingType.Standard);
+
+            manager.UnParkVehicle(string.Empty);
+        }
+
+        [TestMethod]
+        [Description("Verifies that a invalid parking space is not unparked")]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void VerifyInvalidUnparkingTest()
+        {
+            var manager = Container.Resolve<IParkingLotManager>();
+            manager.SetupSystem(2, 2, null);
+
+            var ticketId = manager.ParkVehicle(Entities.ParkingType.Standard);
+
+            manager.UnParkVehicle("Rjdksj");
+        }
     }
 }

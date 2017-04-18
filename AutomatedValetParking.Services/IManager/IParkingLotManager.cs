@@ -24,6 +24,12 @@ namespace AutomatedValetParking.Services.IManager
         string ParkVehicle(ParkingType parkingType);
 
         /// <summary>
+        /// Unparks a vehicle in the parking lot
+        /// </summary>
+        /// <param name="ticketNumber">Ticket number of the Vehicle</param>
+        void UnParkVehicle(string ticketNumber);
+
+        /// <summary>
         /// Gives the available spaces available
         /// </summary>
         /// <returns>Available parking spaces</returns>
